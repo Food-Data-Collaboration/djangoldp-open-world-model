@@ -1,0 +1,5 @@
+[tool.ruff.lint.per-file-ignores]
+"djangoldp_open_world_model/apps.py" = ["F401"]
+"djangoldp_open_world_model/migrations/*" = ["RUF012"]
+"djangoldp_open_world_model/models.py" = ["RUF012"]
+"djangoldp_open_world_model/tests/*" = ["RUF012"]
