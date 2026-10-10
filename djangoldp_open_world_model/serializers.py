@@ -16,6 +16,7 @@ class OpenWorldLDPSerializer(LDPSerializer):
                 if key in data:
                     continue  # The "additional" field is not a means of overriding values.
                 data[key] = obj.additional[key]
+        if "additional" in data:
             data.pop("additional")
         return data
 

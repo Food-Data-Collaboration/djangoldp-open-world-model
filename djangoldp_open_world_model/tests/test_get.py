@@ -35,3 +35,21 @@ class GetViewTestCase(APITestCase):
         self.assertEqual(response.data["withoutRdf"], "test")
         self.assertEqual(response.data["dfc-b:withRdf"], "Test")
         self.assertNotIn("additional", response.data)
+
+    def test_get_additional_fields_none_set(self):
+        org = Organization.objects.create(name="FDC")
+        response = self.client.get(
+            "/organizations/", content_type="application/ld+json"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data["ldp:contains"]), 1)
+        serialized_org = response.data["ldp:contains"][0]
+        self.assertEqual(serialized_org["dfc-b:name"], org.name)
+        self.assertNotIn("additional", serialized_org)
+
+        response = self.client.get(
+            f"/organizations/{org.pk}/", content_type="application/ld+json"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["dfc-b:name"], org.name)
+        self.assertNotIn("additional", response.data)
